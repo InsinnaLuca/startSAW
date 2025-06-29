@@ -1,27 +1,47 @@
+/* Struttura base */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   background: #f6f6f6;
+  color: #333;
 }
 
 .container {
-  padding: 20px;
+  padding: 30px;
   max-width: 900px;
-  margin: auto;
+  margin: 40px auto;
   background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
-h1 {
+/* Titoli */
+h1, h2, h3 {
   color: #003366;
+  margin-top: 0;
+}
+
+/* Navbar */
+nav {
+  background-color: #eaf2fb;
+  padding: 10px 20px;
+  border-bottom: 2px solid #ccc;
 }
 
 nav a {
-  margin-right: 15px;
+  margin-right: 20px;
   text-decoration: none;
   color: #0066cc;
+  font-weight: bold;
 }
 
+nav a:hover {
+  color: #003366;
+  text-decoration: underline;
+}
+
+/* Post list */
 .blog-preview ul {
   list-style: none;
   padding: 0;
@@ -29,11 +49,118 @@ nav a {
 
 .blog-preview li {
   border-bottom: 1px solid #ccc;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
 }
 
+.blog-preview h3 a {
+  color: #5a0099;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+
+.blog-preview h3 a:hover {
+  text-decoration: underline;
+  color: #8a00cc;
+}
+
+/* Meta info */
 .meta {
-  color: #666;
+  color: #777;
   font-size: 0.9em;
+  margin-bottom: 5px;
+}
+
+/* Bottoni */
+button,
+input[type="submit"],
+input[type="button"] {
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+  background-color: #004b99;
+}
+
+/* Link generali */
+a {
+  color: #0056b3;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  border-bottom: 2px solid transparent;
+}
+
+/* Stile al passaggio del mouse */
+a:hover {
+  color: #003366;
+  border-bottom: 2px solid #003366;
+}
+
+.link-button {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #0066cc;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.link-button:hover {
+  background-color: #004c99;
+}
+
+.blog-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.blog-list li {
+  margin-bottom: 15px;
+}
+
+.blog-link {
+  display: inline-block;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #0056b3;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  padding: 8px 12px;
+  background-color: #e9f2ff;
+  border-radius: 6px;
+}
+
+.blog-link:hover {
+  background-color: #d0e7ff;
+  color: #003366;
+  text-decoration: underline;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* spazio tra testo e immagine */
+}
+
+.logo-container h1 {
+  margin: 0;
+  font-size: 2em;
+}
+
+/* Messaggi */
+.welcome, .slogan {
+  margin: 10px 0;
+  font-size: 1.1em;
 }

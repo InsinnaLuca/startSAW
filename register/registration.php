@@ -3,7 +3,7 @@ session_start();
 require_once __DIR__ . '/../db/mysql_credentials.php';
 
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-if ($conn->connect_error) die("Connessione fallita: " . $conn->connect_error);
+if ($conn->connect_error) die("ERROR: Connessione fallita.");
 
 // Se il form è stato inviato via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
@@ -15,12 +15,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
     // Controllo campi obbligatori
     if ($email === '' || $firstname === '' || $lastname === '' || $password === '') {
-        echo "Tutti i campi sono obbligatori.";
+        echo "ERROR: Tutti i campi sono obbligatori.";
         exit;
     }
 
+    // Controllo formato email
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "ERROR: Formato email non valido.";
+        exit;
+    }
+
+    // Controllo corrispondenza password
     if ($password !== $confirm) {
-        echo "Le password non coincidono.";
+        echo "ERROR: Le password non coincidono.";
         exit;
     }
 
@@ -30,22 +37,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $stmt->execute();
     $stmt->store_result();
     if ($stmt->num_rows > 0) {
-        echo "Email già registrata.";
+        echo "ERROR: Email già registrata.";
+        $stmt->close();
+        $conn->close();
         exit;
     }
+    $stmt->close();
 
     // Hash password e inserimento
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
     $stmt = $conn->prepare("INSERT INTO users (email, password_hash, first_name, last_name) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssss", $email, $password_hash, $firstname, $lastname);
-    
+
     if ($stmt->execute()) {
-        // Login automatico dopo registrazione
         $_SESSION['email'] = $email;
         $_SESSION['first_name'] = $firstname;
-        echo "Registrazione completata con successo.";
+        echo "SUCCESS: Registrazione completata.";
     } else {
-        echo "Errore nella registrazione.";
+        echo "ERROR: Errore nella registrazione.";
     }
 
     $stmt->close();
@@ -60,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 <head>
   <meta charset="UTF-8">
   <title>Registrazione</title>
+  <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
   <h1>Registrati</h1>
@@ -71,5 +81,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     <label>Conferma Password: <input type="password" name="confirm" required></label><br>
     <button type="submit" name="submit" value="submit">Registrati</button>
   </form>
+  <p>
+    <a href="../index.php">
+      <button type="button">Torna alla Home</button>
+    </a>
+  </p>
 </body>
 </html>
